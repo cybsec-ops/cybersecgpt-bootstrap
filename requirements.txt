@@ -1,1 +1,2 @@
 # Requirements for production deployments (pin versions in real projects)
+PyYAML>=6.0

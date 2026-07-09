@@ -1,0 +1,37 @@
+# =====================================================================
+# CyberSecGPT Bootstrap Configuration
+# =====================================================================
+
+bootstrap:
+  project_name: cybersecgpt-bootstrap
+  version: "0.1.0"
+  author: "cybsec-ops"
+  description: "CyberSecGPT Bootstrap Developer Toolkit"
+
+organization:
+  name: cybsec-ops
+
+workspace:
+  root: "D:/SOFTWARE/Project_Gpt"
+
+python:
+  minimum_version: "3.11"
+
+github:
+  use_cli: true
+  default_branch: main
+
+paths:
+  source: "src"
+  docs: "docs"
+  configs: "configs"
+  templates: "templates"
+  tests: "tests"
+  scripts: "scripts"
+
+logging:
+  level: INFO
+
+settings:
+  enable_diagnostics: true
+  enable_colored_output: true

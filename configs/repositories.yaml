@@ -1,0 +1,192 @@
+# CyberSecGPT repository registry
+# Generated from the workspace at D:/SOFTWARE/Project_Gpt
+
+repositories:
+  - id: cybersecgpt
+    name: CyberSecGPT
+    description: Core CyberSecGPT repository
+    category: core
+    active: true
+    path: cybersecgpt
+
+  - id: cybersecgpt-api
+    name: CyberSecGPT API
+    description: API services and endpoints for CyberSecGPT
+    category: core
+    active: true
+    path: cybersecgpt-api
+
+  - id: cybersecgpt-benchmarks
+    name: CyberSecGPT Benchmarks
+    description: Benchmarking tools and performance tests
+    category: tooling
+    active: true
+    path: cybersecgpt-benchmarks
+
+  - id: cybersecgpt-bootstrap
+    name: CyberSecGPT Bootstrap
+    description: Bootstrapping utilities and project scaffolding
+    category: core
+    active: true
+    path: cybersecgpt-bootstrap
+
+  - id: cybersecgpt-cli
+    name: CyberSecGPT CLI
+    description: Command line interface for CyberSecGPT utilities
+    category: core
+    active: true
+    path: cybersecgpt-cli
+
+  - id: cybersecgpt-datasets
+    name: CyberSecGPT Datasets
+    description: Dataset management and processing tools
+    category: tooling
+    active: true
+    path: cybersecgpt-datasets
+
+  - id: cybersecgpt-desktop
+    name: CyberSecGPT Desktop
+    description: Desktop client and application shell
+    category: platform
+    active: true
+    path: cybersecgpt-desktop
+
+  - id: cybersecgpt-devops
+    name: CyberSecGPT DevOps
+    description: DevOps automation and infrastructure tooling
+    category: infrastructure
+    active: true
+    path: cybersecgpt-devops
+
+  - id: cybersecgpt-docs
+    name: CyberSecGPT Docs
+    description: Documentation website and content
+    category: documentation
+    active: true
+    path: cybersecgpt-docs
+
+  - id: cybersecgpt-evaluation
+    name: CyberSecGPT Evaluation
+    description: Evaluation frameworks and metrics
+    category: evaluation
+    active: true
+    path: cybersecgpt-evaluation
+
+  - id: cybersecgpt-experiments
+    name: CyberSecGPT Experiments
+    description: Experimental research and prototyping
+    category: research
+    active: true
+    path: cybersecgpt-experiments
+
+  - id: cybersecgpt-foundation
+    name: CyberSecGPT Foundation
+    description: Foundation models and core reasoning components
+    category: core
+    active: true
+    path: cybersecgpt-foundation
+
+  - id: cybersecgpt-governance
+    name: CyberSecGPT Governance
+    description: Governance, policy, and compliance tooling
+    category: core
+    active: true
+    path: cybersecgpt-governance
+
+  - id: cybersecgpt-inference
+    name: CyberSecGPT Inference
+    description: Inference engine and model serving components
+    category: core
+    active: true
+    path: cybersecgpt-inference
+
+  - id: cybersecgpt-infrastructure
+    name: CyberSecGPT Infrastructure
+    description: Infrastructure orchestration and provisioning
+    category: infrastructure
+    active: true
+    path: cybersecgpt-infrastructure
+
+  - id: cybersecgpt-memory
+    name: CyberSecGPT Memory
+    description: Memory systems and long-term storage
+    category: core
+    active: true
+    path: cybersecgpt-memory
+
+  - id: cybersecgpt-monitoring
+    name: CyberSecGPT Monitoring
+    description: Monitoring, logging, and observability tooling
+    category: tooling
+    active: true
+    path: cybersecgpt-monitoring
+
+  - id: cybersecgpt-platform
+    name: CyberSecGPT Platform
+    description: Platform services and orchestration
+    category: platform
+    active: true
+    path: cybersecgpt-platform
+
+  - id: cybersecgpt-reasoning
+    name: CyberSecGPT Reasoning
+    description: Reasoning and decision-making components
+    category: core
+    active: true
+    path: cybersecgpt-reasoning
+
+  - id: cybersecgpt-research
+    name: CyberSecGPT Research
+    description: Research initiatives and studies
+    category: research
+    active: true
+    path: cybersecgpt-research
+
+  - id: cybersecgpt-runtime
+    name: CyberSecGPT Runtime
+    description: Runtime execution environment and tooling
+    category: core
+    active: true
+    path: cybersecgpt-runtime
+
+  - id: cybersecgpt-sdk
+    name: CyberSecGPT SDK
+    description: SDKs and client libraries for CyberSecGPT
+    category: core
+    active: true
+    path: cybersecgpt-sdk
+
+  - id: cybersecgpt-security
+    name: CyberSecGPT Security
+    description: Security tooling and risk management
+    category: security
+    active: true
+    path: cybersecgpt-security
+
+  - id: cybersecgpt-tokenizer
+    name: CyberSecGPT Tokenizer
+    description: Tokenization and text processing utilities
+    category: core
+    active: true
+    path: cybersecgpt-tokenizer
+
+  - id: cybersecgpt-tools
+    name: CyberSecGPT Tools
+    description: General tooling and utilities for CyberSecGPT
+    category: tooling
+    active: true
+    path: cybersecgpt-tools
+
+  - id: cybersecgpt-training
+    name: CyberSecGPT Training
+    description: Training pipelines and model optimization
+    category: research
+    active: true
+    path: cybersecgpt-training
+
+  - id: cybersecgpt-web
+    name: CyberSecGPT Web
+    description: Web application and browser-based interface
+    category: platform
+    active: true
+    path: cybersecgpt-web
