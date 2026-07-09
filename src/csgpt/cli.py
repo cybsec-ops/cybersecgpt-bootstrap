@@ -3,6 +3,7 @@
 This module provides the full command tree for the CLI without implementing
 business logic.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -65,8 +66,13 @@ def _handle_repo_list(args: argparse.Namespace) -> int:
         print("No repositories found.")
         return 0
 
-    widths = [max(len(header), max(len(row[idx]) for row in rows)) for idx, header in enumerate(headers)]
-    header_row = "  ".join(header.ljust(widths[idx]) for idx, header in enumerate(headers))
+    widths = [
+        max(len(header), max(len(row[idx]) for row in rows))
+        for idx, header in enumerate(headers)
+    ]
+    header_row = "  ".join(
+        header.ljust(widths[idx]) for idx, header in enumerate(headers)
+    )
     separator = "  ".join("-" * widths[idx] for idx in range(len(headers)))
 
     print(header_row)
@@ -149,9 +155,19 @@ from csgpt.doctor import DoctorService
 def _handle_doctor(args: argparse.Namespace) -> int:
     logger.info("Running doctor command with args=%s", args)
     service = DoctorService(
-        workspace=args.workspace if getattr(args, "workspace", None) is not None else None,
-        bootstrap_path=args.bootstrap_path if getattr(args, "bootstrap_path", None) is not None else None,
-        registry_path=args.registry_path if getattr(args, "registry_path", None) is not None else None,
+        workspace=(
+            args.workspace if getattr(args, "workspace", None) is not None else None
+        ),
+        bootstrap_path=(
+            args.bootstrap_path
+            if getattr(args, "bootstrap_path", None) is not None
+            else None
+        ),
+        registry_path=(
+            args.registry_path
+            if getattr(args, "registry_path", None) is not None
+            else None
+        ),
         verbose=args.verbose,
     )
     return service.run(json_output=args.json)
@@ -165,10 +181,14 @@ def _handle_version(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     """Build and return the CLI argument parser."""
-    parser = argparse.ArgumentParser(prog="csgpt", description="CyberSecGPT Bootstrap CLI")
+    parser = argparse.ArgumentParser(
+        prog="csgpt", description="CyberSecGPT Bootstrap CLI"
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    subparsers.add_parser("init", help="Initialize a new CyberSecGPT project").set_defaults(func=_handle_init)
+    subparsers.add_parser(
+        "init", help="Initialize a new CyberSecGPT project"
+    ).set_defaults(func=_handle_init)
 
     repo_parser = subparsers.add_parser("repo", help="Manage repositories")
     repo_subparsers = repo_parser.add_subparsers(dest="repo_command", required=True)
@@ -178,7 +198,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     repo_clone = repo_subparsers.add_parser("clone", help="Clone a repository")
     repo_clone.add_argument("url", help="Repository URL")
-    repo_clone.add_argument("--path", type=Path, default=Path.cwd(), help="Destination path")
+    repo_clone.add_argument(
+        "--path", type=Path, default=Path.cwd(), help="Destination path"
+    )
     repo_clone.set_defaults(func=_handle_repo_clone)
 
     repo_sync = repo_subparsers.add_parser("sync", help="Sync a repository")
@@ -200,22 +222,34 @@ def build_parser() -> argparse.ArgumentParser:
 
     docs_parser = subparsers.add_parser("docs", help="Manage documentation")
     docs_subparsers = docs_parser.add_subparsers(dest="docs_command", required=True)
-    docs_generate = docs_subparsers.add_parser("generate", help="Generate documentation")
-    docs_generate.add_argument("--output", type=Path, default=Path("docs"), help="Output directory")
+    docs_generate = docs_subparsers.add_parser(
+        "generate", help="Generate documentation"
+    )
+    docs_generate.add_argument(
+        "--output", type=Path, default=Path("docs"), help="Output directory"
+    )
     docs_generate.set_defaults(func=_handle_docs_generate)
 
     docs_build = docs_subparsers.add_parser("build", help="Build documentation")
-    docs_build.add_argument("--output", type=Path, default=Path("site"), help="Build directory")
+    docs_build.add_argument(
+        "--output", type=Path, default=Path("site"), help="Build directory"
+    )
     docs_build.set_defaults(func=_handle_docs_build)
 
-    docs_validate = docs_subparsers.add_parser("validate", help="Validate documentation")
+    docs_validate = docs_subparsers.add_parser(
+        "validate", help="Validate documentation"
+    )
     docs_validate.set_defaults(func=_handle_docs_validate)
 
     template_parser = subparsers.add_parser("template", help="Manage templates")
-    template_subparsers = template_parser.add_subparsers(dest="template_command", required=True)
+    template_subparsers = template_parser.add_subparsers(
+        dest="template_command", required=True
+    )
     template_apply = template_subparsers.add_parser("apply", help="Apply a template")
     template_apply.add_argument("name", help="Template name")
-    template_apply.add_argument("--destination", type=Path, default=Path.cwd(), help="Destination directory")
+    template_apply.add_argument(
+        "--destination", type=Path, default=Path.cwd(), help="Destination directory"
+    )
     template_apply.set_defaults(func=_handle_template_apply)
 
     template_update = template_subparsers.add_parser("update", help="Update templates")
@@ -226,7 +260,9 @@ def build_parser() -> argparse.ArgumentParser:
     template_list.set_defaults(func=_handle_template_list)
 
     config_parser = subparsers.add_parser("config", help="Manage configuration")
-    config_subparsers = config_parser.add_subparsers(dest="config_command", required=True)
+    config_subparsers = config_parser.add_subparsers(
+        dest="config_command", required=True
+    )
     config_init = config_subparsers.add_parser("init", help="Initialize configuration")
     config_init.add_argument(
         "--path",
@@ -236,7 +272,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     config_init.set_defaults(func=_handle_config_init)
 
-    config_validate = config_subparsers.add_parser("validate", help="Validate configuration")
+    config_validate = config_subparsers.add_parser(
+        "validate", help="Validate configuration"
+    )
     config_validate.add_argument(
         "--path",
         type=Path,

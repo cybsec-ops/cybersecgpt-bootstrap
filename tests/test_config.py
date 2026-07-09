@@ -2,7 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from csgpt.config import ConfigurationError, ConfigurationFileNotFoundError, ConfigurationManager
+from csgpt.config import (
+    ConfigurationError,
+    ConfigurationFileNotFoundError,
+    ConfigurationManager,
+)
 
 
 def test_load_missing_file_raises(tmp_path: Path) -> None:

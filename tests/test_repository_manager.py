@@ -80,7 +80,10 @@ def test_load_registry_invalid_root_raises(tmp_path: Path) -> None:
 
 def test_load_registry_invalid_yaml_raises(tmp_path: Path) -> None:
     config_path = tmp_path / "repositories.yaml"
-    config_path.write_text("repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    description: [unclosed\n", encoding="utf-8")
+    config_path.write_text(
+        "repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    description: [unclosed\n",
+        encoding="utf-8",
+    )
     manager = RepositoryManager(path=config_path)
 
     with pytest.raises(RepositoryRegistryError):

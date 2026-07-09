@@ -2,6 +2,7 @@
 
 Template rendering (e.g., jinja2) will be integrated later.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

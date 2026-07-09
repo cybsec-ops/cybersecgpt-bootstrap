@@ -1,4 +1,5 @@
 """Doctor command support for CyberSecGPT Bootstrap."""
+
 from __future__ import annotations
 
 import json
@@ -40,8 +41,12 @@ class DoctorService:
         verbose: bool = False,
     ) -> None:
         self.work_dir = (workspace or Path.cwd()).expanduser().resolve()
-        self.bootstrap_path = (bootstrap_path or Path("configs/bootstrap.yaml")).expanduser()
-        self.registry_path = (registry_path or Path("configs/repositories.yaml")).expanduser()
+        self.bootstrap_path = (
+            bootstrap_path or Path("configs/bootstrap.yaml")
+        ).expanduser()
+        self.registry_path = (
+            registry_path or Path("configs/repositories.yaml")
+        ).expanduser()
         self.verbose = verbose
         self.workspace_root: Path | None = None
 
@@ -51,7 +56,9 @@ class DoctorService:
     def run(self, json_output: bool = False) -> int:
         """Run all checks and render the doctor report."""
         results = self.run_checks()
-        all_required_passed = all(result.status == "PASS" for result in results if result.critical)
+        all_required_passed = all(
+            result.status == "PASS" for result in results if result.critical
+        )
 
         if json_output:
             print(json.dumps([asdict(result) for result in results], indent=2))
@@ -82,7 +89,9 @@ class DoctorService:
         return results
 
     def _check_python_executable(self) -> DoctorCheckResult:
-        executable = shutil.which("python") or shutil.which("python3") or shutil.which("py")
+        executable = (
+            shutil.which("python") or shutil.which("python3") or shutil.which("py")
+        )
         if executable:
             return DoctorCheckResult(
                 status="PASS",
@@ -185,7 +194,9 @@ class DoctorService:
             status="FAIL",
             check="GitHub authentication",
             value="Not authenticated",
-            details=result.stderr.strip() or result.stdout.strip() or "gh auth status failed.",
+            details=result.stderr.strip()
+            or result.stdout.strip()
+            or "gh auth status failed.",
         )
 
     def _check_workspace_config(self) -> DoctorCheckResult:
@@ -226,8 +237,15 @@ class DoctorService:
                 details="Missing 'bootstrap' section in config.",
             )
 
-        workspace_root_value = raw.get("workspace", {}).get("root") if isinstance(raw.get("workspace"), dict) else None
-        if not isinstance(workspace_root_value, str) or not workspace_root_value.strip():
+        workspace_root_value = (
+            raw.get("workspace", {}).get("root")
+            if isinstance(raw.get("workspace"), dict)
+            else None
+        )
+        if (
+            not isinstance(workspace_root_value, str)
+            or not workspace_root_value.strip()
+        ):
             return DoctorCheckResult(
                 status="FAIL",
                 check="Workspace root",
@@ -410,15 +428,23 @@ class DoctorService:
             max(len(headers[idx]), max(len(str(row[idx])) for row in rows))
             for idx in range(len(headers))
         ]
-        header_row = "  ".join(headers[idx].ljust(widths[idx]) for idx in range(len(headers)))
+        header_row = "  ".join(
+            headers[idx].ljust(widths[idx]) for idx in range(len(headers))
+        )
         separator = "  ".join("-" * widths[idx] for idx in range(len(headers)))
 
         print(header_row)
         print(separator)
         for row in rows:
-            print("  ".join(str(value).ljust(widths[idx]) for idx, value in enumerate(row)))
+            print(
+                "  ".join(
+                    str(value).ljust(widths[idx]) for idx, value in enumerate(row)
+                )
+            )
 
-    def _run_command(self, command: list[str], check: bool = False) -> subprocess.CompletedProcess[Any]:
+    def _run_command(
+        self, command: list[str], check: bool = False
+    ) -> subprocess.CompletedProcess[Any]:
         logger.debug("Running command: %s", command)
         try:
             return subprocess.run(

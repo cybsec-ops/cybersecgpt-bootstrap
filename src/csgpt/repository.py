@@ -3,6 +3,7 @@
 This module provides a lightweight repository model and manager for
 loading repository registry configuration from YAML.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

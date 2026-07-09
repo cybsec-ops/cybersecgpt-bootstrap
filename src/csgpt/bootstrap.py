@@ -3,6 +3,7 @@
 This module is intentionally empty of implementation; it provides stubs
 and dataclasses to be filled in later.
 """
+
 from __future__ import annotations
 
 import logging

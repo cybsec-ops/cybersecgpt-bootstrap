@@ -1,4 +1,5 @@
 """Utility helpers for the csgpt package."""
+
 from __future__ import annotations
 
 from pathlib import Path

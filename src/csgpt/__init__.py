@@ -2,6 +2,7 @@
 
 Lightweight package metadata and exports.
 """
+
 from importlib.metadata import PackageNotFoundError, version
 
 try:

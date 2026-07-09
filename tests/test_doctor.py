@@ -7,7 +7,9 @@ import pytest
 from csgpt.doctor import DoctorService
 
 
-def test_doctor_service_empty_workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_doctor_service_empty_workspace(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     workspace = tmp_path / "workspace"
     workspace.mkdir()
     bootstrap = workspace / "configs" / "bootstrap.yaml"
@@ -15,7 +17,9 @@ def test_doctor_service_empty_workspace(tmp_path: Path, monkeypatch: pytest.Monk
     bootstrap.parent.mkdir(parents=True, exist_ok=True)
     registry.parent.mkdir(parents=True, exist_ok=True)
     bootstrap.write_text(
-        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(workspace.as_posix()),
+        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(
+            workspace.as_posix()
+        ),
         encoding="utf-8",
     )
     registry.write_text("repositories: []\n", encoding="utf-8")
@@ -24,12 +28,21 @@ def test_doctor_service_empty_workspace(tmp_path: Path, monkeypatch: pytest.Monk
 
     def fake_run(command, capture_output, text, check):
         if command[:2] == ["/usr/bin/git", "--version"]:
-            return subprocess.CompletedProcess(command, 0, stdout="git version 2.40.0\n", stderr="")
+            return subprocess.CompletedProcess(
+                command, 0, stdout="git version 2.40.0\n", stderr=""
+            )
         if command[:3] == ["/usr/bin/gh", "auth", "status"]:
-            return subprocess.CompletedProcess(command, 0, stdout="github.com: Logged in as user\n", stderr="")
+            return subprocess.CompletedProcess(
+                command, 0, stdout="github.com: Logged in as user\n", stderr=""
+            )
         return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
 
-    monkeypatch.setattr("csgpt.doctor.DoctorService._run_command", lambda self, command, check=False: fake_run(command, capture_output=True, text=True, check=check))
+    monkeypatch.setattr(
+        "csgpt.doctor.DoctorService._run_command",
+        lambda self, command, check=False: fake_run(
+            command, capture_output=True, text=True, check=check
+        ),
+    )
 
     service = DoctorService(workspace=workspace)
     exit_code = service.run(json_output=True)
@@ -37,25 +50,38 @@ def test_doctor_service_empty_workspace(tmp_path: Path, monkeypatch: pytest.Monk
     assert exit_code == 0
 
 
-def test_doctor_service_missing_files(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_doctor_service_missing_files(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     workspace = tmp_path / "workspace"
     workspace.mkdir()
     bootstrap = workspace / "configs" / "bootstrap.yaml"
     bootstrap.parent.mkdir(parents=True)
     bootstrap.write_text(
-        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(workspace.as_posix()),
+        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(
+            workspace.as_posix()
+        ),
         encoding="utf-8",
     )
     monkeypatch.setattr("csgpt.doctor.shutil.which", lambda name: f"/usr/bin/{name}")
 
     def fake_run(command, capture_output, text, check):
         if command[:2] == ["/usr/bin/git", "--version"]:
-            return subprocess.CompletedProcess(command, 0, stdout="git version 2.40.0\n", stderr="")
+            return subprocess.CompletedProcess(
+                command, 0, stdout="git version 2.40.0\n", stderr=""
+            )
         if command[:3] == ["/usr/bin/gh", "auth", "status"]:
-            return subprocess.CompletedProcess(command, 0, stdout="github.com: Logged in as user\n", stderr="")
+            return subprocess.CompletedProcess(
+                command, 0, stdout="github.com: Logged in as user\n", stderr=""
+            )
         return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
 
-    monkeypatch.setattr("csgpt.doctor.DoctorService._run_command", lambda self, command, check=False: fake_run(command, capture_output=True, text=True, check=check))
+    monkeypatch.setattr(
+        "csgpt.doctor.DoctorService._run_command",
+        lambda self, command, check=False: fake_run(
+            command, capture_output=True, text=True, check=check
+        ),
+    )
 
     service = DoctorService(workspace=workspace)
     exit_code = service.run()

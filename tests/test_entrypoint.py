@@ -18,7 +18,15 @@ def test_cli_help_prints_and_exits(capsys) -> None:
 def test_package_modules_exist() -> None:
     package = importlib.import_module("csgpt")
     # Ensure key modules are importable
-    for mod in ("cli", "bootstrap", "repository", "github", "templates", "config", "utils"):
+    for mod in (
+        "cli",
+        "bootstrap",
+        "repository",
+        "github",
+        "templates",
+        "config",
+        "utils",
+    ):
         fullname = f"csgpt.{mod}"
         m = importlib.import_module(fullname)
         assert m is not None

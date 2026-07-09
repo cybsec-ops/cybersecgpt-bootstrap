@@ -6,7 +6,9 @@ import pytest
 from csgpt.doctor import DoctorService
 
 
-def test_doctor_resolves_repository_paths_against_workspace_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_doctor_resolves_repository_paths_against_workspace_root(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     workspace_root = tmp_path / "workspace-root"
     workspace_root.mkdir()
 
@@ -21,7 +23,9 @@ def test_doctor_resolves_repository_paths_against_workspace_root(tmp_path: Path,
     registry.parent.mkdir(parents=True, exist_ok=True)
 
     bootstrap.write_text(
-        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(workspace_root.as_posix()),
+        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(
+            workspace_root.as_posix()
+        ),
         encoding="utf-8",
     )
     registry.write_text(
@@ -33,12 +37,21 @@ def test_doctor_resolves_repository_paths_against_workspace_root(tmp_path: Path,
 
     def fake_run(command, capture_output, text, check):
         if command[:2] == ["/usr/bin/git", "--version"]:
-            return subprocess.CompletedProcess(command, 0, stdout="git version 2.40.0\n", stderr="")
+            return subprocess.CompletedProcess(
+                command, 0, stdout="git version 2.40.0\n", stderr=""
+            )
         if command[:3] == ["/usr/bin/gh", "auth", "status"]:
-            return subprocess.CompletedProcess(command, 0, stdout="github.com: Logged in as user\n", stderr="")
+            return subprocess.CompletedProcess(
+                command, 0, stdout="github.com: Logged in as user\n", stderr=""
+            )
         return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
 
-    monkeypatch.setattr("csgpt.doctor.DoctorService._run_command", lambda self, command, check=False: fake_run(command, capture_output=True, text=True, check=check))
+    monkeypatch.setattr(
+        "csgpt.doctor.DoctorService._run_command",
+        lambda self, command, check=False: fake_run(
+            command, capture_output=True, text=True, check=check
+        ),
+    )
 
     service = DoctorService(workspace=workspace)
     exit_code = service.run(json_output=True)

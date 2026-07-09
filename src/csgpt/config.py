@@ -1,4 +1,5 @@
 """Configuration management for CyberSecGPT Bootstrap."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -61,7 +62,9 @@ class ConfigurationManager:
         """Apply default values for missing configuration sections."""
         bootstrap_section = self.config.setdefault("bootstrap", {})
         if bootstrap_section is None or not isinstance(bootstrap_section, dict):
-            raise ConfigurationError("Configuration 'bootstrap' section must be a mapping.")
+            raise ConfigurationError(
+                "Configuration 'bootstrap' section must be a mapping."
+            )
 
         bootstrap_section.setdefault("project_name", "cybersecgpt-bootstrap")
         bootstrap_section.setdefault("version", "0.1.0")
@@ -82,7 +85,9 @@ class ConfigurationManager:
 
         settings_section = self.config.setdefault("settings", {})
         if settings_section is None or not isinstance(settings_section, dict):
-            raise ConfigurationError("Configuration 'settings' section must be a mapping.")
+            raise ConfigurationError(
+                "Configuration 'settings' section must be a mapping."
+            )
 
         settings_section.setdefault("enable_diagnostics", True)
         settings_section.setdefault("default_branch", "main")
