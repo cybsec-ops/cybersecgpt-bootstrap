@@ -1,0 +1,1 @@
+# Requirements for production deployments (pin versions in real projects)
