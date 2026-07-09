@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 
@@ -23,13 +24,24 @@ def test_doctor_resolves_repository_paths_against_workspace_root(
     registry.parent.mkdir(parents=True, exist_ok=True)
 
     bootstrap.write_text(
-        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(
-            workspace_root.as_posix()
-        ),
+        dedent("""
+            bootstrap:
+              project_name: test
+            workspace:
+              root: %s
+            """).strip() % workspace_root.as_posix() + "\n",
         encoding="utf-8",
     )
     registry.write_text(
-        "repositories:\n  - id: cybersecgpt-bootstrap\n    name: CyberSecGPT Bootstrap\n    description: Bootstrap repository\n    category: tooling\n    active: true\n    path: cybersecgpt-bootstrap\n",
+        dedent("""
+            repositories:
+              - id: cybersecgpt-bootstrap
+                name: CyberSecGPT Bootstrap
+                description: Bootstrap repository
+                category: tooling
+                active: true
+                path: cybersecgpt-bootstrap
+            """).strip() + "\n",
         encoding="utf-8",
     )
 

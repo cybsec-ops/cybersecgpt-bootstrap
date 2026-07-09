@@ -13,6 +13,7 @@ from pprint import pprint
 from typing import Optional
 
 from csgpt.config import ConfigurationError, ConfigurationManager
+from csgpt.doctor import DoctorService
 from csgpt.repository import RepositoryManager, RepositoryRegistryError
 
 logger = logging.getLogger(__name__)
@@ -147,9 +148,6 @@ def _handle_config_show(args: argparse.Namespace) -> int:
 
     pprint(manager.as_dict())
     return 0
-
-
-from csgpt.doctor import DoctorService
 
 
 def _handle_doctor(args: argparse.Namespace) -> int:

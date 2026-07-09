@@ -1,4 +1,5 @@
 from pathlib import Path
+from textwrap import dedent
 
 from csgpt.cli import build_parser
 
@@ -6,7 +7,21 @@ from csgpt.cli import build_parser
 def test_repo_list_prints_sorted_table(tmp_path: Path, capsys) -> None:
     config_path = tmp_path / "repositories.yaml"
     config_path.write_text(
-        """repositories:\n  - id: b-repo\n    name: B Repo\n    description: B repository\n    category: tooling\n    active: false\n    path: b-repo\n  - id: a-repo\n    name: A Repo\n    description: A repository\n    category: core\n    active: true\n    path: a-repo\n""",
+        dedent("""
+            repositories:
+              - id: b-repo
+                name: B Repo
+                description: B repository
+                category: tooling
+                active: false
+                path: b-repo
+              - id: a-repo
+                name: A Repo
+                description: A repository
+                category: core
+                active: true
+                path: a-repo
+            """).strip() + "\n",
         encoding="utf-8",
     )
 

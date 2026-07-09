@@ -1,4 +1,5 @@
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 
@@ -18,7 +19,15 @@ def test_load_missing_file_raises(tmp_path: Path) -> None:
 def test_load_defaults_and_show_as_dict(tmp_path: Path) -> None:
     config_path = tmp_path / "bootstrap.yaml"
     config_path.write_text(
-        """bootstrap:\n  project_name: test-project\npaths:\n  source: src/\nsettings:\n  enable_diagnostics: false\n  default_branch: develop\n""",
+        dedent("""
+            bootstrap:
+              project_name: test-project
+            paths:
+              source: src/
+            settings:
+              enable_diagnostics: false
+              default_branch: develop
+            """).strip() + "\n",
         encoding="utf-8",
     )
 

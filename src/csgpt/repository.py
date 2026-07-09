@@ -102,6 +102,12 @@ class RepositoryManager:
             RepositoryRegistryFileNotFoundError: If the file does not exist.
             RepositoryRegistryError: For parse, validation, or schema errors.
         """
+        raw = self._load_registry()
+        repositories = self._validate_registry_root(raw)
+        self.repositories = self._parse_repositories(repositories)
+        return self.repositories
+
+    def _load_registry(self) -> Any:
         if not self.path.exists():
             raise RepositoryRegistryFileNotFoundError(
                 f"Repository registry file not found: {self.path}"
@@ -113,12 +119,13 @@ class RepositoryManager:
             )
 
         try:
-            raw = yaml.safe_load(self.path.read_text(encoding="utf-8"))
+            return yaml.safe_load(self.path.read_text(encoding="utf-8"))
         except yaml.YAMLError as exc:
             raise RepositoryRegistryError(
                 f"Failed to parse repository registry YAML: {exc}"
             ) from exc
 
+    def _validate_registry_root(self, raw: Any) -> list[dict[str, Any]]:
         if raw is None:
             raw = {}
 
@@ -138,39 +145,51 @@ class RepositoryManager:
                 f"'repositories' must be a list, got {type(repositories).__name__}"
             )
 
+        return repositories
+
+    def _parse_repositories(
+        self,
+        repository_items: list[dict[str, Any]],
+    ) -> list[Repository]:
         parsed: list[Repository] = []
         ids: set[str] = set()
         names: set[str] = set()
 
-        for index, item in enumerate(repositories):
+        for index, item in enumerate(repository_items):
             if not isinstance(item, dict):
                 raise RepositoryRegistryError(
                     f"Repository entry at index {index} must be a mapping"
                 )
 
             repository = Repository.from_dict(item)
-
-            if not repository.id:
-                raise MissingRepositoryFieldError(
-                    f"Repository entry at index {index} has an empty 'id'"
-                )
-            if not repository.name:
-                raise MissingRepositoryFieldError(
-                    f"Repository entry at index {index} has an empty 'name'"
-                )
-
-            if repository.id in ids:
-                raise DuplicateRepositoryIdError(
-                    f"Duplicate repository id found: {repository.id}"
-                )
-            if repository.name in names:
-                raise DuplicateRepositoryNameError(
-                    f"Duplicate repository name found: {repository.name}"
-                )
-
+            self._validate_repository(repository, index, ids, names)
             ids.add(repository.id)
             names.add(repository.name)
             parsed.append(repository)
 
-        self.repositories = parsed
-        return self.repositories
+        return parsed
+
+    def _validate_repository(
+        self,
+        repository: Repository,
+        index: int,
+        ids: set[str],
+        names: set[str],
+    ) -> None:
+        if not repository.id:
+            raise MissingRepositoryFieldError(
+                f"Repository entry at index {index} has an empty 'id'"
+            )
+        if not repository.name:
+            raise MissingRepositoryFieldError(
+                f"Repository entry at index {index} has an empty 'name'"
+            )
+
+        if repository.id in ids:
+            raise DuplicateRepositoryIdError(
+                f"Duplicate repository id found: {repository.id}"
+            )
+        if repository.name in names:
+            raise DuplicateRepositoryNameError(
+                f"Duplicate repository name found: {repository.name}"
+            )

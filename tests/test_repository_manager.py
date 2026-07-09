@@ -1,4 +1,5 @@
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 
@@ -21,7 +22,15 @@ def test_load_registry_missing_file_raises(tmp_path: Path) -> None:
 def test_load_registry_parses_repositories(tmp_path: Path) -> None:
     config_path = tmp_path / "repositories.yaml"
     config_path.write_text(
-        """repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    description: Command line interface\n    category: core\n    active: true\n    path: cybersecgpt-cli\n""",
+        dedent("""
+            repositories:
+              - id: cybersecgpt-cli
+                name: CyberSecGPT CLI
+                description: Command line interface
+                category: core
+                active: true
+                path: cybersecgpt-cli
+            """).strip() + "\n",
         encoding="utf-8",
     )
     manager = RepositoryManager(path=config_path)
@@ -36,7 +45,21 @@ def test_load_registry_parses_repositories(tmp_path: Path) -> None:
 def test_load_registry_duplicate_id_raises(tmp_path: Path) -> None:
     config_path = tmp_path / "repositories.yaml"
     config_path.write_text(
-        """repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    description: Command line interface\n    category: core\n    active: true\n    path: cybersecgpt-cli\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI v2\n    description: Duplicate id\n    category: core\n    active: true\n    path: cybersecgpt-cli-v2\n""",
+        dedent("""
+            repositories:
+              - id: cybersecgpt-cli
+                name: CyberSecGPT CLI
+                description: Command line interface
+                category: core
+                active: true
+                path: cybersecgpt-cli
+              - id: cybersecgpt-cli
+                name: CyberSecGPT CLI v2
+                description: Duplicate id
+                category: core
+                active: true
+                path: cybersecgpt-cli-v2
+            """).strip() + "\n",
         encoding="utf-8",
     )
     manager = RepositoryManager(path=config_path)
@@ -48,7 +71,21 @@ def test_load_registry_duplicate_id_raises(tmp_path: Path) -> None:
 def test_load_registry_duplicate_name_raises(tmp_path: Path) -> None:
     config_path = tmp_path / "repositories.yaml"
     config_path.write_text(
-        """repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    description: Command line interface\n    category: core\n    active: true\n    path: cybersecgpt-cli\n  - id: cybersecgpt-cli-v2\n    name: CyberSecGPT CLI\n    description: Duplicate name\n    category: core\n    active: true\n    path: cybersecgpt-cli-v2\n""",
+        dedent("""
+            repositories:
+              - id: cybersecgpt-cli
+                name: CyberSecGPT CLI
+                description: Command line interface
+                category: core
+                active: true
+                path: cybersecgpt-cli
+              - id: cybersecgpt-cli-v2
+                name: CyberSecGPT CLI
+                description: Duplicate name
+                category: core
+                active: true
+                path: cybersecgpt-cli-v2
+            """).strip() + "\n",
         encoding="utf-8",
     )
     manager = RepositoryManager(path=config_path)
@@ -60,7 +97,14 @@ def test_load_registry_duplicate_name_raises(tmp_path: Path) -> None:
 def test_load_registry_missing_field_raises(tmp_path: Path) -> None:
     config_path = tmp_path / "repositories.yaml"
     config_path.write_text(
-        """repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    category: core\n    active: true\n    path: cybersecgpt-cli\n""",
+        dedent("""
+            repositories:
+              - id: cybersecgpt-cli
+                name: CyberSecGPT CLI
+                category: core
+                active: true
+                path: cybersecgpt-cli
+            """).strip() + "\n",
         encoding="utf-8",
     )
     manager = RepositoryManager(path=config_path)
@@ -81,7 +125,12 @@ def test_load_registry_invalid_root_raises(tmp_path: Path) -> None:
 def test_load_registry_invalid_yaml_raises(tmp_path: Path) -> None:
     config_path = tmp_path / "repositories.yaml"
     config_path.write_text(
-        "repositories:\n  - id: cybersecgpt-cli\n    name: CyberSecGPT CLI\n    description: [unclosed\n",
+        """
+        repositories:
+          - id: cybersecgpt-cli
+            name: CyberSecGPT CLI
+            description: [unclosed
+        """.strip() + "\n",
         encoding="utf-8",
     )
     manager = RepositoryManager(path=config_path)

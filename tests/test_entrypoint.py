@@ -1,5 +1,4 @@
 import importlib
-import sys
 from pathlib import Path
 
 import pytest
@@ -16,7 +15,7 @@ def test_cli_help_prints_and_exits(capsys) -> None:
 
 
 def test_package_modules_exist() -> None:
-    package = importlib.import_module("csgpt")
+    importlib.import_module("csgpt")
     # Ensure key modules are importable
     for mod in (
         "cli",

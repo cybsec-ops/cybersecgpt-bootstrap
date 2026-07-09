@@ -1,6 +1,6 @@
-import json
 import subprocess
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 
@@ -17,9 +17,12 @@ def test_doctor_service_empty_workspace(
     bootstrap.parent.mkdir(parents=True, exist_ok=True)
     registry.parent.mkdir(parents=True, exist_ok=True)
     bootstrap.write_text(
-        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(
-            workspace.as_posix()
-        ),
+        dedent("""
+            bootstrap:
+              project_name: test
+            workspace:
+              root: %s
+            """).strip() % workspace.as_posix() + "\n",
         encoding="utf-8",
     )
     registry.write_text("repositories: []\n", encoding="utf-8")
@@ -58,9 +61,12 @@ def test_doctor_service_missing_files(
     bootstrap = workspace / "configs" / "bootstrap.yaml"
     bootstrap.parent.mkdir(parents=True)
     bootstrap.write_text(
-        "bootstrap:\n  project_name: test\nworkspace:\n  root: {}\n".format(
-            workspace.as_posix()
-        ),
+        dedent("""
+            bootstrap:
+              project_name: test
+            workspace:
+              root: %s
+            """).strip() % workspace.as_posix() + "\n",
         encoding="utf-8",
     )
     monkeypatch.setattr("csgpt.doctor.shutil.which", lambda name: f"/usr/bin/{name}")

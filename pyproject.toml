@@ -41,6 +41,8 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 88
+
+[tool.ruff.lint]
 extend-select = ["E", "F", "W", "C", "N"]
 
 [tool.black]
